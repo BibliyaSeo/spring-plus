@@ -47,8 +47,10 @@ public class SecurityConfig {
                         .requestMatchers(request -> request.getRequestURI().startsWith("/auth")).permitAll()
                         .requestMatchers("/test").hasAuthority(UserRole.Authority.ADMIN) // `/test`는 ADMIN만 허용
                         .requestMatchers("/open").permitAll() // `/open`은 아무나 접근 가능
+                        .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated() // 다른 요청들은 authentication 필요
                 )
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                 .build();
     }
 }
